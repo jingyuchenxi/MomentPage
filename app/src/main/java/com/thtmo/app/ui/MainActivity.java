@@ -1,14 +1,12 @@
 package com.thtmo.app.ui;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.thtmo.app.R;
-import com.thtmo.app.recycler.TweetItemViewAdapter;
+import com.thtmo.app.recycler.MomentViewAdapter;
 import com.thtmo.app.viewmodel.AvatarViewModel;
 import com.thtmo.app.viewmodel.TweetsViewModel;
 import com.thtmo.app.vo.AvatarDto;
@@ -20,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -29,15 +28,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.smartRefreshLayout)
     SmartRefreshLayout smartRefreshLayout;
 
-    @BindView(R.id.profileImage)
-    SimpleDraweeView profileImage;
-
-    @BindView(R.id.avatarDesc)
-    TextView avatarDesc;
-
-    @BindView(R.id.avatarIcon)
-    SimpleDraweeView avatarIcon;
-
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
@@ -45,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TweetsViewModel tweetsViewModel;
 
-    private TweetItemViewAdapter tweetItemViewAdapter;
+    private MomentViewAdapter momentViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         ButterKnife.bind(this);
-        tweetItemViewAdapter = new TweetItemViewAdapter();
+        momentViewAdapter = new MomentViewAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(tweetItemViewAdapter);
+        recyclerView.setAdapter(momentViewAdapter);
         avatarViewModel = new ViewModelProvider(this).get(AvatarViewModel.class);
         tweetsViewModel = new ViewModelProvider(this).get(TweetsViewModel.class);
         avatarViewModel.observeAvatarData(this, (Observer<AvatarDto>) this::refreshAvatarView);
@@ -85,13 +75,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshAvatarView(AvatarDto avatarDto) {
-        profileImage.setImageURI(avatarDto.getProfileImage());
-        avatarIcon.setImageURI(avatarDto.getAvatar());
-        avatarDesc.setText(avatarDto.getNick());
-        avatarDesc.bringToFront();
+        momentViewAdapter.updateAvatarDto(avatarDto);
     }
 
     private void refreshTweetsView(List<TweetsDto> tweetsDtoList) {
-        tweetItemViewAdapter.updateTweetsDtoList(tweetsDtoList);
+        momentViewAdapter.updateTweetsDtoList(tweetsDtoList);
     }
 }
