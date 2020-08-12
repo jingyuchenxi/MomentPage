@@ -24,7 +24,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
             android:orientation="vertical">
 
             <TextView
@@ -32,19 +33,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:layout_marginBottom="5dp" />
 
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/contentImg"
-                android:layout_width="50dp"
-                android:layout_height="50dp"/>
-
-            <TextView
-                android:id="@+id/comment"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/contentImages"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:layout_marginBottom="5dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/commentView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp" />
         </LinearLayout>
     </LinearLayout>
 
